@@ -32,3 +32,31 @@ async def sql_insert_detail(product_id, category, info_product):
         product_id, category, info_product
     ))
     db.commit()
+
+
+# CRUD - 1
+# ==================================================================
+def get_db_connection():
+    conn = sqlite3.connect('db/store.sqlite3')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def fetch_all_products():
+    conn = get_db_connection()
+    products = conn.execute("""
+    SELECT * from store s
+    INNER JOIN store_detail  sd 
+    ON s.product_id = sd.product_id
+    """).fetchall()
+    conn.close()
+    return products
+
+
+def delete_product(product_id):
+    conn = get_db_connection()
+
+    conn.execute('DELETE FROM store WHERE product_id = ?', (product_id,))
+    conn.execute('DELETE FROM store_detail WHERE product_id = ?', (product_id,))
+
+    conn.commit()
+    conn.close()
