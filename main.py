@@ -2,7 +2,7 @@ from aiogram import executor
 import logging
 from config import bot, Admins, dp
 from handlers import (commands, echo, quiz, webapp, FSM_registration, store_fsm,
-                      send_products,delete_products, edit_products)
+                      send_products,delete_products, edit_products, admin_group)
 from buttons import start
 from db import main_db
 
@@ -15,16 +15,18 @@ async def on_startup(_):
 
 commands.register_handlers(dp)
 quiz.register_handlers(dp)
-webapp.register_handlers(dp)
+# webapp.register_handlers(dp)
+#
+# FSM_registration.register_handlers_fsm_reg(dp)
+# store_fsm.register_handlers_store(dp)
+#
+# send_products.register_handlers(dp)
+# delete_products.register_handlers(dp)
+# edit_products.register_handlers(dp)
 
-FSM_registration.register_handlers_fsm_reg(dp)
-store_fsm.register_handlers_store(dp)
+admin_group.register_handlers(dp)
 
-send_products.register_handlers(dp)
-delete_products.register_handlers(dp)
-edit_products.register_handlers(dp)
-
-echo.register_handlers(dp)
+# echo.register_handlers(dp)
 
 
 if __name__ == '__main__':
